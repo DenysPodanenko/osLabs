@@ -12,13 +12,15 @@
 
 int main(void)
 {
+	//Объявляем массив
 	char buf[BUFSIZ];
 	/*printf_s("Enter the search word: ");
 	char *WORD = NULL;
 	size_t len;
 	if (getline(&buf, &len, stdin) == -1 && ferror(stdin))
 	err(1, "getline");*/
-
+	
+	//Открываем потоки чтения и записи
 	FILE *f = fopen("test.txt", "r");
 	FILE *f1 = fopen("out.txt", "w");
 
@@ -33,10 +35,12 @@ int main(void)
 	}
 	fclose(f);
 
+	//Объявляем массив
 	char out[BUFSIZ];
-	
 	int i = 0, j = 0;
+	//Считываем пока не конец файла
 	while (buf[i] != NULL) {
+		//Если число, то записываем в новый файл
 		if (isdigit(buf[i])) {
 			//out[j] = buf[i];
 			//j++;
