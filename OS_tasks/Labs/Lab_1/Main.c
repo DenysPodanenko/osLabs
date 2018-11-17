@@ -2,6 +2,7 @@
 //#include <iostream>
 //#include <conio.h>
 
+//Функция которая вычисляет максимальный элемент
 void max(int mass[], int size) {
 	int max = mass[0];
 	for (int i = 1; i<size; i++)
@@ -12,6 +13,7 @@ void max(int mass[], int size) {
 	printf("\nmax=%d", max);
 }
 
+//Функция которая вычисляет минимальный элемент
 void min(int mass[], int size) {
 	int min = mass[0];
 	for (int i = 1; i<size; i++)
@@ -21,6 +23,7 @@ void min(int mass[], int size) {
 	printf("\nmin=%d", min);
 }
 
+//Функция которая вычисляет среднее значение
 void average(int mass[], int size) {
 	int av;
 	int sum = 0;
@@ -33,15 +36,19 @@ void average(int mass[], int size) {
 }
 
 int main() {
-
-	int mass[] = {1,2,3,4,5,6,7,8};
-	int size = sizeof(mass) / sizeof(int);
-
-	/*for (int i = 0; i<8; i++)
+	int n = 8;
+	int mass[n];
+	
+	//Заполняем массив
+	for (int i = 0; i<n; i++)
 	{
 		printf("mass[%d] = ", i);
 		scanf_s("%d", &mass[i]);
-	}*/
+	}
+	
+	int size = sizeof(mass) / sizeof(int);
+
+	
 
 	max(mass,size);
 	min(mass,size);
