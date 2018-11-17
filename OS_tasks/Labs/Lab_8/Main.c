@@ -11,7 +11,8 @@
 #pragma warning(disable:4996)
 
 int main(void)
-{
+{	
+	//Объявляем массив 
 	char buf[BUFSIZ];
 	/*printf_s("Enter the search word: ");
 	char *WORD = NULL;
@@ -19,6 +20,7 @@ int main(void)
 	if (getline(&buf, &len, stdin) == -1 && ferror(stdin))
 		err(1, "getline");*/
 
+	//Открываем поток на чтение из файла
 	FILE *f = fopen("test.txt", "r");
 
 	if (!f) {
@@ -33,11 +35,13 @@ int main(void)
 	fclose(f);
 
 	int i = 0;
+	//Переводим все буквы в нижний региср, пока не конец файла
 	while (buf[i] != NULL) {
 		buf[i] = tolower(buf[i]);
 		i++;
 	}
 	size_t count = 0;
+	//Ищем заданное слов, если нашли count +1
 	for (char *ptr = strtok(tolower(buf), DELIM); ptr; ptr = strtok(NULL, DELIM)) {
 		if (!strcmp(ptr, WORD)) ++count;
 		//if (!strcmp(tolower(ptr), tolower(WORD))) ++count;
