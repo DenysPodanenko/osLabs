@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 
+//Функция которая возвращает 16-й дамп
 void DumpHex(const void* data, size_t size) {
 	char ascii[17];
 	size_t i, j;
