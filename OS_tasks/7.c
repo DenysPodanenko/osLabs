@@ -3,6 +3,7 @@
 #include <string.h> // strlen
 #include <unistd.h>
 
+//function for read all text from file
 char* ReadFile(char *filename)
 {
    char *buffer = NULL;
@@ -45,11 +46,17 @@ char* ReadFile(char *filename)
 
 int main(int argn, char **args)
 {
+	//text from file argument 1
 	char *string = ReadFile(args[1]);
-    
+    	
+	//encrypt text
 	char *encryptString = string;
+	
+	//convert int from second argument 2, key
 	char *p;
 	int h = strtol(args[2], &p, 10);
+		
+	//encrypting text
 	for(int i=0;i<strlen(string);i++)
 	{
 		int numChar = encryptString[i];
@@ -84,7 +91,7 @@ int main(int argn, char **args)
 		encryptString[i] = ch;
 	}	
 	
-
+	//print text on console
 	printf("%s",encryptString);
     	return 0;
 }

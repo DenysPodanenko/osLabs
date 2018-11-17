@@ -2,6 +2,7 @@
 #include <stdlib.h> // malloc, free
 #include <string.h> // strlen
 
+//function for rear all text from file
 char* ReadFile(char *filename)
 {
    char *buffer = NULL;
@@ -44,17 +45,22 @@ char* ReadFile(char *filename)
 
 int main(int argn, char **args)
 {
+	//text from file argument 1
 	char *string = ReadFile(args[1]);
-    
+    	
+	//length off text
 	size_t l = strlen(string);
+	//new array length l + 1 for nullterminator
 	char* r = (char*)malloc((l + 1) * sizeof(char));
   	r[l] = '\0';
-
+	
+	//make r = invert text
   	for(int i = 0; i < l; i++) 
 	{
     		r[i] = string[l - 1 - i];
   	}
-
+	
+	//open stream for write r in new file
 	FILE *f;
 	f = fopen(args[2], "w");
 	fprintf(f,"%s",r);	

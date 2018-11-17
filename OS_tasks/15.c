@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <time.h>
 
+//function for read text from text
 char* ReadFile(char *filename)
 {
    char *buffer = NULL;
@@ -44,9 +45,12 @@ char* ReadFile(char *filename)
     return buffer;
 }
 
+//function for comprahance text of 2 files
 double fileComprahance(char *file1, char *file2)
 {
+	//get length of file 1
 	double l1 = strlen(file1);
+	//counter of equal symbols
 	double	equalSymb = 0;
 	
 	for(int i=0;i<l1-1;i++)
@@ -62,21 +66,25 @@ double fileComprahance(char *file1, char *file2)
 		}
 	}
 	
+	//calculate pecent of equality
 	return (equalSymb/(l1-1)) * 100;
 }
 
 int main(int argn, char **args)
 {
+	//get current time
 	time_t t = time(NULL);
 	struct tm tm = *localtime(&t);
 
 	printf("inspection date: %d-%d-%d %d:%d:%d\n", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
 	
+	//read file 1 and file 2
 	char *file1 = ReadFile(args[1]);
 	char *file2 = ReadFile(args[2]);  	
 	
 	printf("Files: %s, %s\n",args[1],args[2]);
 	
+	//search bigger file and comprahance them
 	if(strlen(file1)>strlen(file2))
 	{
 		printf("Percentage ratio: %lf\n", fileComprahance(file1, file2));		

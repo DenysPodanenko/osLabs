@@ -3,6 +3,7 @@
 #include <string.h> // strlen
 #include <unistd.h>
 
+//function for reading text from file
 char* ReadFile(char *filename)
 {
    char *buffer = NULL;
@@ -45,17 +46,24 @@ char* ReadFile(char *filename)
 
 int main(int argn, char **args)
 {
+	//text from file argumet 1
 	char *string = ReadFile(args[1]);
+	//word from argument 2
 	char *word = args[2];   
 	
+	//convert to int position for insert 
 	char *p;
 	int position = strtol(args[3], &p, 10);
-
+	
+	//length of text
 	size_t lstr = strlen(string);
+	//length of word	
 	size_t lword = strlen(word);
+	//new array length text+word+1
 	char* newString = (char*)malloc((lstr + lword + 1) * sizeof(char));
   	newString[lstr+lword] = '\0';
 
+	//insert word in text
 	int iterator=0;
 	if(lstr<position)
 	{
@@ -86,7 +94,9 @@ int main(int argn, char **args)
 			newString[iterator] = string[i];
 			iterator+=1;
 		}
-	}	
+	}
+	
+	//write new text in file argument 1	
 	FILE *f;
 	f = fopen(args[1], "w");
 	fprintf(f,"%s",newString);	
