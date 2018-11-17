@@ -19,6 +19,7 @@ void main() {
 	//printf_s("%c", which);
 
 
+	//Перебираем в цикле символы и заменяем если нужно
 	for (int i = 0; i < strlen(str); i++) {
 		if (str[i] == replace) {
 			str[i] = which;
