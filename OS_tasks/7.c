@@ -2,8 +2,8 @@
 #include <stdlib.h> // malloc, free
 #include <string.h> // strlen
 #include <unistd.h>
+#include <ctype.h>
 
-//function for read all text from file
 char* ReadFile(char *filename)
 {
    char *buffer = NULL;
@@ -46,21 +46,21 @@ char* ReadFile(char *filename)
 
 int main(int argn, char **args)
 {
-	//text from file argument 1
 	char *string = ReadFile(args[1]);
-    	
-	//encrypt text
+    
 	char *encryptString = string;
-	
-	//convert int from second argument 2, key
 	char *p;
 	int h = strtol(args[2], &p, 10);
-		
-	//encrypting text
 	for(int i=0;i<strlen(string);i++)
 	{
+		int bigNum = 0;
 		int numChar = encryptString[i];
-		
+		if(numChar>64 && numChar<91)
+		{
+			bigNum = 1;
+			numChar = tolower(numChar);
+		}
+		//printf("big num - %d",bigNum);
 		if(numChar<97 || numChar>122)
 		{
 			continue;
@@ -68,18 +68,8 @@ int main(int argn, char **args)
 		
 		if(numChar+h>122)
 		{
-			while(1)
-			{
-				if(numChar+h>122)
-				{
-					numChar-=122;
-				}
-				else
-				{
-					break;
-				}
-			}
-			numChar+=h;
+			int k = numChar + h - 122;
+			numChar=k+97;
 		}
 		else
 		{
@@ -87,11 +77,15 @@ int main(int argn, char **args)
 		}
 		
 		char ch = numChar;
+		if(bigNum == 1)
+		{
+			ch = toupper(ch);
+		}
 		//printf("%d\n",h);
 		encryptString[i] = ch;
 	}	
 	
-	//print text on console
+
 	printf("%s",encryptString);
     	return 0;
 }
