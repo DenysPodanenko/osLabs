@@ -1,54 +1,73 @@
-//gcc 5.4.0
-
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
+#include <stdio.h> // printf
+#include <stdlib.h> // malloc, free
+#include <string.h> // strlen
+#include <unistd.h>
 #include <ctype.h>
 
-#define DELIM " "
-#define WORD "hello"
-#define _CRT_SECURE_NO_WARNINGS
-#pragma warning(disable:4996)
+char* ReadFile(char *filename)
+{
+   char *buffer = NULL;
+   int string_size, read_size;
+   FILE *handler = fopen(filename, "r");
 
-int main(void)
-{	
-	//Объявляем массив 
-	char buf[BUFSIZ];
-	/*printf_s("Enter the search word: ");
-	char *WORD = NULL;
-	size_t len;
-	if (getline(&buf, &len, stdin) == -1 && ferror(stdin))
-		err(1, "getline");*/
+   if (handler)
+   {
+       // Seek the last byte of the file
+       fseek(handler, 0, SEEK_END);
+       // Offset from the first to the last byte, or in other words, filesize
+       string_size = ftell(handler);
+       // go back to the start of the file
+       rewind(handler);
 
-	//Открываем поток на чтение из файла
-	FILE *f = fopen("test.txt", "r");
+       // Allocate a string that can hold it all
+       buffer = (char*) malloc(sizeof(char) * (string_size + 1) );
 
-	if (!f) {
-		fprintf(stderr, "Error open file\n");
-		return 1;
+       // Read it all in one operation
+       read_size = fread(buffer, sizeof(char), string_size, handler);
+
+       // fread doesn't set it so put a \0 in the last position
+       // and buffer is now officially a string
+       buffer[string_size] = '\0';
+
+       if (string_size != read_size)
+       {
+           // Something went wrong, throw away the memory and set
+           // the buffer to NULL
+           free(buffer);
+           buffer = NULL;
+       }
+
+       // Always remember to close the file.
+       fclose(handler);
+    }
+
+    return buffer;
+}
+
+int main(int argn, char **args)
+{
+	char *string = ReadFile(args[1]);
+	char *word = args[2];
+	char *pch;
+	int isWordExist = 0;
+	pch = strtok (string," ,.-");
+  	while (pch != NULL)
+  	{	
+		//printf ("%s -- %s\n",pch,word);
+		if(strcmp(word,pch) == 0)
+		{
+			isWordExist = 1;
+			break;			
+		}
+    		pch = strtok (NULL, " ,.-");
+  	}
+
+	if(isWordExist == 0)
+	{
+		printf("Word is not exist in file\n");
 	}
-
-	if (!fgets(buf, BUFSIZ, f)) {
-		fprintf(stderr, "Error read file\n");
-		return 1;
+	else
+	{
+		printf("Word is exist in file\n");
 	}
-	fclose(f);
-
-	int i = 0;
-	//Переводим все буквы в нижний региср, пока не конец файла
-	while (buf[i] != NULL) {
-		buf[i] = tolower(buf[i]);
-		i++;
-	}
-	size_t count = 0;
-	//Ищем заданное слов, если нашли count +1
-	for (char *ptr = strtok(tolower(buf), DELIM); ptr; ptr = strtok(NULL, DELIM)) {
-		if (!strcmp(ptr, WORD)) ++count;
-		//if (!strcmp(tolower(ptr), tolower(WORD))) ++count;
-	}
-
-	printf("Count %s: %zu\n", WORD, count);
-
-	system("pause");
-	return 0;
 }
